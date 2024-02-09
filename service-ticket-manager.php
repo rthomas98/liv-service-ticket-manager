@@ -60,3 +60,6 @@ function create_service_ticket_post_type() {
 add_action( 'init', 'create_service_ticket_post_type' );
 
 
+include_once( plugin_dir_path( __FILE__ ) . 'roles.php' );
+include_once( plugin_dir_path( __FILE__ ) . 'meta-boxes.php' );
+include_once( plugin_dir_path( __FILE__ ) . 'data-handling.php' );
