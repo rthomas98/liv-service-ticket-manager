@@ -26,6 +26,7 @@ function display_service_ticket_form_fields( $post ) {
     <p>
         <label for="customer_name"><?php _e( 'Customer Name', 'service-ticket-manager' ); ?></label><br>
         <input type="text" name="customer_name" id="customer_name" value="<?php echo esc_attr( $customer_name ); ?>" class="widefat" />
+        <span class="error-message"></span> </p>
     </p>
 
     <h3>Customer Account Number</h3>
@@ -33,35 +34,42 @@ function display_service_ticket_form_fields( $post ) {
     <p>
         <label for="customer_account_number"><?php _e( 'Account Number', 'service-ticket-manager' ); ?></label><br>
         <input type="text" name="customer_account_number" id="customer_account_number" value="<?php echo esc_attr( get_post_meta( $post->ID, '_customer_account_number', true ) ); ?>" class="widefat" />
+        <span class="error-message"></span> </p>
     </p>
 
     <p>
         <label for="customer_city"><?php _e( 'City', 'service-ticket-manager' ); ?></label><br>
         <input type="text" name="customer_city" id="customer_city" value="<?php echo esc_attr( get_post_meta( $post->ID, '_customer_city', true ) ); ?>" class="widefat" />
+        <span class="error-message"></span>
     </p>
     <p>
         <label for="customer_state"><?php _e( 'State', 'service-ticket-manager' ); ?></label><br>
         <input type="text" name="customer_state" id="customer_state" value="<?php echo esc_attr( get_post_meta( $post->ID, '_customer_state', true ) ); ?>" class="widefat" />
+        <span class="error-message"></span>
     </p>
     <p>
         <label for="customer_zip"><?php _e( 'Zip Code', 'service-ticket-manager' ); ?></label><br>
         <input type="text" name="customer_zip" id="customer_zip" value="<?php echo esc_attr( get_post_meta( $post->ID, '_customer_zip', true ) ); ?>" class="widefat" />
+        <span class="error-message"></span>
     </p>
     <h3>Contact Number:</h3>
     <p>
         <label for="customer_phone"><?php _e( 'Phone', 'service-ticket-manager' ); ?></label><br>
         <input type="text" name="customer_phone" id="customer_phone" value="<?php echo esc_attr( get_post_meta( $post->ID, '_customer_phone', true ) ); ?>" class="widefat" />
+        <span class="error-message"></span>
     </p>
 
     <h3>Email Address</h3>
     <p>
         <label for="customer_email"><?php _e( 'Email', 'service-ticket-manager' ); ?></label><br>
         <input type="email" name="customer_email" id="customer_email" value="<?php echo esc_attr( get_post_meta( $post->ID, '_customer_email', true ) ); ?>" class="widefat" />
-
+        <span class="error-message"></span>
+    </p>
     <h3>Service Details</h3>
     <p>
         <label for="date_of_services"><?php _e( 'Date of Services', 'service-ticket-manager' ); ?></label><br>
         <input type="date" name="date_of_services" id="date_of_services" value="<?php echo esc_attr( $date_of_services ); ?>" class="widefat" />
+        <span class="error-message"></span>
     </p>
     <h3>Description of Services</h3>
     <p>
@@ -73,6 +81,7 @@ function display_service_ticket_form_fields( $post ) {
     <p>
         <label for="delivery_start"><?php _e( 'Delivery Start Location', 'service-ticket-manager' ); ?></label><br>
         <input type="text" name="delivery_start" id="delivery_start" value="<?php echo esc_attr( get_post_meta( $post->ID, '_delivery_start', true ) ); ?>" class="widefat" />
+        <span class="error-message"></span>
     </p>
     <p>
         <label for="delivery_destination"><?php _e( 'Delivery Destination', 'service-ticket-manager' ); ?></label><br>
@@ -81,6 +90,7 @@ function display_service_ticket_form_fields( $post ) {
     <p>
         <label for="unit_price"><?php _e( 'Unit Price', 'service-ticket-manager' ); ?></label><br>
         <input type="number" name="unit_price" id="unit_price" value="<?php echo esc_attr( get_post_meta( $post->ID, '_unit_price', true ) ); ?>" class="widefat" />
+        <span class="error-message"></span>
     </p>
     <p>
         <label for="extended_price"><?php _e( 'Extended Price', 'service-ticket-manager' ); ?></label><br>

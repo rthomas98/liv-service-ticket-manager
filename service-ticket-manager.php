@@ -59,7 +59,81 @@ function create_service_ticket_post_type() {
 }
 add_action( 'init', 'create_service_ticket_post_type' );
 
+// Enqueue Scripts for Ticket Form Validation
+function enqueue_ticket_form_scripts() {
+    wp_enqueue_script(
+        'ticket-form-validation',   // Handle for your script
+        plugins_url( 'assets/js/ticket-form-validation.js', __FILE__ ), // Path to the script
+        array('jquery'),                                                // Dependency on jQuery
+        '1.0.0',                                                        // Version number
+        true                                                            // Load in footer for better performance
+    );
+}
+add_action( 'wp_enqueue_scripts', 'enqueue_ticket_form_scripts' );
 
-include_once( plugin_dir_path( __FILE__ ) . 'roles.php' );
-include_once( plugin_dir_path( __FILE__ ) . 'meta-boxes.php' );
-include_once( plugin_dir_path( __FILE__ ) . 'data-handling.php' );
+// Enqueue Styles for Ticket Manager
+function enqueue_ticket_styles() {
+    wp_enqueue_style(
+        'ticket-styles',                        // Handle for your stylesheet
+        plugins_url( 'assets/css/service-ticket-manager.css', __FILE__ ), // Path to the stylesheet
+        array(),                                                              // Dependencies (none in this case)
+        '1.0.0',                                                            // Version number
+        'all'                                                               // Media type (for all)
+    );
+}
+add_action( 'wp_enqueue_scripts', 'enqueue_ticket_styles' );  // Or another hook  if only on specific pages
+
+// Address Validation Script
+function my_plugin_enqueue_scripts() {
+    // Assuming your 'assets' folder is directly within your plugin folder
+    wp_enqueue_script( 'my-address-validation-script', plugins_url( '/assets/js/my-address-validation.js', __FILE__ ), array( 'jquery' ), '1.0.0', true );
+
+    wp_localize_script( 'my-address-validation-script', 'myPluginData', array(
+        'apiKey' => get_option( 'my_plugin_google_maps_api_key' )
+    ) );
+}
+add_action( 'wp_enqueue_scripts', 'my_plugin_enqueue_scripts' );
+
+// Function to set up/load the Google Maps Module Settings
+function my_plugin_load_google_maps_settings() {
+    // Check if we're in administration
+    if ( is_admin() ) {
+        include_once( dirname( __FILE__ ) . '/includes/plugin-settings.php' );
+        my_google_maps_module_register_settings();
+    }
+}
+
+// The Hooking Point – Ensure correct loading order
+add_action( 'admin_init', 'my_plugin_load_google_maps_settings' );
+
+// Add 'Google Maps API Settings' under the main 'Settings'
+function my_plugin_add_settings_page() {
+    add_submenu_page(
+        'options-general.php', // Parent page slug (main 'Settings')
+        'Google Maps API Settings', // Page Title
+        'Google Maps Settings',     // Menu Title
+        'manage_options',           // Required capability to access the page
+        'my-google-maps-settings',  // Unique page slug
+        'my_plugin_render_settings_page' // Callback for content
+    );
+}
+add_action( 'admin_menu', 'my_plugin_add_settings_page' );
+
+// Callback Function to Render Page Content (Simple for Now)
+function my_plugin_render_settings_page() {
+    ?>
+    <h1>Google Maps API Settings</h1>
+    <form method="post" action="options.php">
+        <?php
+        settings_fields( 'my_google_maps_module_settings_group' );
+        do_settings_sections( 'my-google-maps-settings' );
+        submit_button();
+        ?>
+    </form>
+    <?php
+}
+
+// Now include other remaining files
+include_once( plugin_dir_path( __FILE__ ) . '/includes/roles.php' );
+include_once( plugin_dir_path( __FILE__ ) . '/includes/meta-boxes.php' );
+include_once( plugin_dir_path( __FILE__ ) . '/includes/data-handling.php' );
