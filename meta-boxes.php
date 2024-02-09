@@ -118,9 +118,6 @@ function display_service_ticket_form_fields( $post ) {
             'role__in'         => array( 'manager', 'dispatch' ) // Key Change here!
         );
 
-        wp_dropdown_users( $dropdown_args );
-
-
         // Function to generate the dropdown
         wp_dropdown_users( $dropdown_args );
         ?>
