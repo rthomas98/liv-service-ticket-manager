@@ -6,9 +6,9 @@ function service_ticket_metabox() {
         'service_ticket_details',
         __( 'Service Ticket Details', 'service-ticket-manager' ),
         'display_service_ticket_form_fields',
-        'service_ticket', // Post type
-        'normal',      // Display position ('normal', 'side'..)
-        'high'         // Priority ('high', 'low'...)
+        'service_ticket',
+        'normal',
+        'high'
     );
 }
 add_action( 'add_meta_boxes', 'service_ticket_metabox' );
@@ -18,6 +18,11 @@ add_action( 'add_meta_boxes', 'service_ticket_metabox' );
 function display_service_ticket_form_fields( $post ) {
     // Add a nonce field for security validation
     wp_nonce_field( 'service_ticket_form_nonce', 'service_ticket_metabox_nonce' );
+
+    $date_of_services = ''; // Empty string as a starting point
+    if (get_post_meta( $post->ID, '_date_of_services', true )) {
+        $date_of_services = get_post_meta( $post->ID, '_date_of_services', true );
+    }
 
     // Example Field: Customer Name (add more as needed)
     $customer_name = get_post_meta( $post->ID, '_customer_name', true ); // Retrieve if data exists
@@ -95,24 +100,29 @@ function display_service_ticket_form_fields( $post ) {
     <p>
         <label for="extended_price"><?php _e( 'Extended Price', 'service-ticket-manager' ); ?></label><br>
         <input type="number" name="extended_price" id="extended_price" value="<?php echo esc_attr( get_post_meta( $post->ID, '_extended_price', true ) ); ?>" class="widefat" />
+        <span class="error-message"></span>
     </p>
 
     <h3>Subcontractor/Driver Details</h3>
     <p>
         <label for="driver_name"><?php _e( 'Name', 'service-ticket-manager' ); ?></label><br>
         <input type="text" name="driver_name" id="driver_name" value="<?php echo esc_attr( get_post_meta( $post->ID, '_driver_name', true ) ); ?>" class="widefat" />
+        <span class="error-message"></span>
     </p>
     <p>
         <label for="driver_address"><?php _e( 'Street Address', 'service-ticket-manager' ); ?></label><br>
         <input type="text" name="driver_address" id="driver_address" value="<?php echo esc_attr( get_post_meta( $post->ID, '_driver_address', true ) ); ?>" class="widefat" />
+        <span class="error-message"></span>
     </p>
     <p>
         <label for="driver_contact"><?php _e( 'Contact Number', 'service-ticket-manager' ); ?></label><br>
         <input type="tel" name="driver_contact" id="driver_contact" value="<?php echo esc_attr( get_post_meta( $post->ID, '_driver_contact', true ) ); ?>" class="widefat" />
+        <span class="error-message"></span>
     </p>
     <p>
         <label for="driver_email"><?php _e( 'Email Address (optional)', 'service-ticket-manager' ); ?></label><br>
         <input type="email" name="driver_email" id="driver_email" value="<?php echo esc_attr( get_post_meta( $post->ID, '_driver_email', true ) ); ?>" class="widefat" />
+        <span class="error-message"></span>
     </p>
 
     <h3>Manager/Dispatch</h3>
