@@ -43,5 +43,5 @@ add_action( 'wp_enqueue_scripts', 'enqueue_ticket_styles' );  // Or another hook
 include_once( plugin_dir_path( __FILE__ ) . '/includes/roles.php' );
 include_once( plugin_dir_path( __FILE__ ) . '/includes/data-handling.php' );
 
-include_once plugin_dir_path( __FILE__ ) . 'includes/admin-functions.php';
-
+include_once( plugin_dir_path( __FILE__ ) . '/includes/admin-functions.php');
+include_once( plugin_dir_path( __FILE__ ) . '/includes/service-tickets/taxonomies.php' );
