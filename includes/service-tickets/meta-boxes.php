@@ -162,3 +162,60 @@ function display_service_ticket_form_fields( $post ) {
 }
 
 
+function save_service_ticket_meta_box_data( $post_id ) {
+    // Check if our nonce is set.
+    if ( ! isset( $_POST['service_ticket_metabox_nonce'] ) ) {
+        return;
+    }
+
+    // Verify that the nonce is valid.
+    if ( ! wp_verify_nonce( $_POST['service_ticket_metabox_nonce'], 'service_ticket_form_nonce' ) ) {
+        return;
+    }
+
+    // If this is an autosave, our form has not been submitted, so we don't want to do anything.
+    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+        return;
+    }
+
+    // Check the user's permissions.
+    if ( isset( $_POST['post_type'] ) && 'service_ticket' == $_POST['post_type'] ) {
+        if ( ! current_user_can( 'edit_post', $post_id ) ) {
+            return;
+        }
+    }
+
+    $meta_data_fields = [
+        'customer_name' => 'sanitize_text_field',
+        'customer_account_number' => 'sanitize_text_field',
+        'customer_city' => 'sanitize_text_field',
+        'customer_state' => 'sanitize_text_field',
+        'customer_zip' => 'sanitize_text_field',
+        'customer_phone' => 'sanitize_text_field', // Consider a custom sanitization if you have specific format requirements
+        'customer_email' => 'sanitize_email',
+        'date_of_services' => 'sanitize_text_field', // Ensure this matches your expected date format
+        'description_of_services' => 'sanitize_textarea_field',
+        'delivery_start' => 'sanitize_text_field',
+        'delivery_destination' => 'sanitize_text_field',
+        'unit_price' => 'sanitize_text_field', // You might want to specifically cast this to a float or integer
+        'extended_price' => 'sanitize_text_field', // Same as above
+        'driver_name' => 'sanitize_text_field',
+        'driver_address' => 'sanitize_text_field',
+        'driver_contact' => 'sanitize_text_field', // Consider a custom sanitization for phone numbers
+        'driver_email' => 'sanitize_email',
+        'manager_id' => 'intval', // Since this is expected to be an integer ID
+        'ticket_status' => 'sanitize_text_field',
+        'ticket_notes' => 'sanitize_textarea_field'
+    ];
+
+    foreach ($meta_data_fields as $meta_field) {
+        if (array_key_exists($meta_field, $_POST)) {
+            update_post_meta(
+                $post_id,
+                '_' . $meta_field,
+                sanitize_text_field($_POST[$meta_field])
+            );
+        }
+    }
+}
+add_action( 'save_post', 'save_service_ticket_meta_box_data' );
