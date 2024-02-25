@@ -45,3 +45,6 @@ include_once( plugin_dir_path( __FILE__ ) . '/includes/data-handling.php' );
 
 include_once( plugin_dir_path( __FILE__ ) . '/includes/admin-functions.php');
 include_once( plugin_dir_path( __FILE__ ) . '/includes/service-tickets/taxonomies.php' );
+
+// Export functions
+include_once plugin_dir_path( __FILE__ ) . '/includes/export-functions.php';

@@ -85,7 +85,7 @@ function my_plugin_generate_quickbooks_authorization_url($state) {
     $redirect_uri = urlencode(admin_url('admin.php?page=my-plugin-quickbooks-connect'));
     $scope = urlencode('com.intuit.quickbooks.accounting');
     $response_type = 'code';
-    $authorization_url = "https://appcenter.intuit.com/connect/oauth2"
+    $authorization_url = "https://developer.intuit.com/v2/OAuth2Playground/RedirectUrl"
         . "?client_id={$client_id}"
         . "&redirect_uri={$redirect_uri}"
         . "&scope={$scope}"
