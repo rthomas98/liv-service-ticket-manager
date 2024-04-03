@@ -17,12 +17,13 @@ add_role( 'dispatch', 'Service Ticket Dispatcher', array(
 ) );
 }
 
-register_activation_hook( __FILE__, 'create_service_ticket_roles' );
+register_activation_hook(__FILE__, 'service_ticket_plugin_activation');
 
-// Function to remove custom roles
-function remove_service_ticket_roles() {
-remove_role( 'manager' );
-remove_role( 'dispatch' );
+// Optionally, you might want to clean up roles on plugin deactivation
+function service_ticket_plugin_deactivation() {
+    remove_role('dispatch');
+    remove_role('manager');
+    // Additional deactivation code can go here
 }
-register_deactivation_hook( __FILE__, 'remove_service_ticket_roles' );
 
+register_deactivation_hook(__FILE__, 'service_ticket_plugin_deactivation');

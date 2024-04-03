@@ -18,8 +18,7 @@ function display_service_ticket_form_fields($post) {
     wp_nonce_field('service_ticket_form_nonce', 'service_ticket_metabox_nonce');
 
     $manager_id = get_post_meta($post->ID, '_manager_id', true);
-    $manager_userdata = get_userdata($manager_id);
-    $manager_name = $manager_userdata ? $manager_userdata->display_name : __('No Manager Assigned', 'service-ticket-manager');
+    $manager_name = $manager_id ? get_userdata($manager_id)->display_name : 'No Manager Assigned';
 
     // Retrieve meta values
     $meta_values = [
